@@ -13,9 +13,6 @@
 #include <string.h>
 #include <gphoto2/gphoto2.h>
 
-#include "samples.h"
-//#include "config.c"
-
 extern int sample_autodetect (CameraList *list, GPContext *context);
 extern int sample_open_camera (Camera ** camera, const char *model, const char *port);
 
