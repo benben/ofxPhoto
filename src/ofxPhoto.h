@@ -1,14 +1,13 @@
 #ifndef OFXPHOTO_H
 #define OFXPHOTO_H
 
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
+//#include <stdio.h>
+//#include <string.h>
+//#include <fcntl.h>
 
 #include "gphoto2.h"
 #include "FreeImage.h"
 #include "ofMain.h"
-#include "ofImage.h"
 
 class ofxPhoto
 {
@@ -19,34 +18,39 @@ class ofxPhoto
         void init();
         void exit();
         unsigned char * capture();
-        void capture_generic();
-
-        ofPixels pix;
+        bool captureSucceeded();
 
     protected:
     private:
 
-    Camera	*camera;
-	int	retval;
-	GPContext *cameracontext;
-    CameraFile *camerafile;
-	CameraFilePath camera_file_path;
+        Camera	*camera;
+        int	retval;
+        GPContext *cameracontext;
+        CameraFile *camerafile;
+        CameraFilePath camera_file_path;
 
-    const char *ptr;
-	unsigned long int size;
+        const char *ptr;
+        unsigned long int size;
 
-    void swapRgb(ofPixels &pix);
+        FIMEMORY *hmem;
+        FREE_IMAGE_FORMAT fif;
+        FIBITMAP *bmp;
 
-    unsigned char * capture_to_of(Camera *camera, GPContext *cameracontext);
+        int width, height, bpp;
 
-    void capture_to_file(Camera *camera, GPContext *cameracontext, char *filename);
-    void allocate(ofPixels &pix, int width, int height, int bpp);
+        ofPixels pix;
 
-    FIMEMORY *hmem;
-    FREE_IMAGE_FORMAT fif;
-    FIBITMAP *bmp;
+        bool bCameraInit;
+        bool bCaptureSucceeded;
 
-    int width, height, bpp;
+        bool capture_to_of(Camera *camera, GPContext *cameracontext);
+
+        //COPIED FROM ofImage.cpp
+        void allocatePixels(ofPixels &pix, int width, int height, int bpp);
+        void putBmpIntoPixels(FIBITMAP * bmp, ofPixels &pix);
+
+        //NOT IMPLEMENTED YET
+        void capture_to_file(Camera *camera, GPContext *cameracontext, char *filename);
 };
 
 #endif // OFXPHOTO_H
