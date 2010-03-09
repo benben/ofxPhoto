@@ -24,7 +24,8 @@ void ofxPhoto::init () {
 
 	retval = gp_camera_init(camera, cameracontext);
 	if (retval != GP_OK) {
-		printf("  Retval: %d\n", retval);
+		printf("  Retval: %d ", retval);
+		printf("%s\n",gp_result_as_string(retval));
 	}
 	else {
         printf("Initializing finished!\n");
@@ -38,50 +39,36 @@ void ofxPhoto::exit () {
 }
 
 unsigned char * ofxPhoto::capture () {
-	//capture_to_file(camera, cameracontext, (char*)"foo.jpg");
 	return capture_to_of(camera, cameracontext);
-	//return pix.pixels;
 }
 
 unsigned char * ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {
 
-	CameraFile *camerafile;
-	CameraFilePath camera_file_path;
-
-	printf("Capturing.\n");
-
-    /* NOP: This gets overridden in the library to /capt0000.jpg */
-	strcpy(camera_file_path.folder, "/");
-	strcpy(camera_file_path.name, "foo.jpg");
+	printf("Capturing (this may take some time) ...\n");
 
 	retval = gp_camera_capture(camera, GP_CAPTURE_IMAGE, &camera_file_path, cameracontext);
-	printf("  Retval: %d\n", retval);
+	if(retval != GP_OK) {
+		printf("  Retval: %d ", retval);
+        printf("%s\n",gp_result_as_string(retval));
+	}
 
-	printf("Pathname on the camera: %s/%s\n", camera_file_path.folder, camera_file_path.name);
+	//printf("Pathname on the camera: %s/%s\n", camera_file_path.folder, camera_file_path.name);
 
     gp_file_new(&camerafile);
 
     retval = gp_camera_file_get(camera, camera_file_path.folder, camera_file_path.name,GP_FILE_TYPE_NORMAL, camerafile, cameracontext);
-	printf("  Retval: %d\n", retval);
-
-	const char *ptr;
-	unsigned long int size;
+	if(retval != GP_OK) {
+		printf("  Retval: %d ", retval);
+        printf("%s\n",gp_result_as_string(retval));
+	}
 
 	gp_file_get_data_and_size(camerafile, &ptr, &size);
 
-	printf("size: %d \n", size);
-
-	ofPixels pix;
-
-    FIMEMORY *hmem = FreeImage_OpenMemory((uint8_t *)ptr,size);
-
-    FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(hmem, 0);
-
-    FIBITMAP *bmp = FreeImage_LoadFromMemory(fif, hmem, 0);
+    hmem = FreeImage_OpenMemory((uint8_t *)ptr,size);
+    fif = FreeImage_GetFileTypeFromMemory(hmem, 0);
+    bmp = FreeImage_LoadFromMemory(fif, hmem, 0);
 
     //###############COPIED FROM ofImage::loadImageIntoPixels
-
-    int width, height, bpp;
 
     width 		= FreeImage_GetWidth(bmp);
     height 		= FreeImage_GetHeight(bmp);
@@ -115,17 +102,20 @@ unsigned char * ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext
 
 
 		int byteCount = bpp / 8;
+
+
         //------------------------------------------
 		// call the allocation routine (which checks if really need to allocate) here:
+		printf("trying to allocate memory...\n");
 		allocate(pix, width, height, bpp);
-
+        printf("memory allocated!\n");
+        printf("trying to convert to raw pixels...\n");
 		FreeImage_ConvertToRawBits(pix.pixels, bmp, width*byteCount, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, true);  // get bits
-
+        printf("converting finished!\n");
 		#ifdef TARGET_LITTLE_ENDIAN
-			if (byteCount != 1) swapRgb(pix);
+			//if (byteCount != 1) swapRgb(pix);
 		#endif
 		//------------------------------------------
-
 
 	if (bmp != NULL){
 		FreeImage_Unload(bmp);
@@ -133,10 +123,13 @@ unsigned char * ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext
 
     //###########################END OF COPY ofImage::loadImageIntoPixels
 
-	printf("Deleting.\n");
+	printf("Deleting picture on camera...\n");
 	retval = gp_camera_file_delete(camera, camera_file_path.folder, camera_file_path.name,
 			cameracontext);
-	printf("  Retval: %d\n", retval);
+	if(retval != GP_OK) {
+		printf("  Retval: %d ", retval);
+        printf("%s\n",gp_result_as_string(retval));
+	}
 
 	gp_file_free(camerafile);
 	printf("Capturing finished!\n");
