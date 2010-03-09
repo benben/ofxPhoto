@@ -12,6 +12,10 @@ ofxPhoto::~ofxPhoto()
 
 void ofxPhoto::init () {
     bCameraInit = false;
+
+    captureWidth = 0;
+    captureHeight = 0;
+
     printf("Camera init.  Takes about 10 seconds.\n");
 	cameracontext = gp_context_new();
 
@@ -49,6 +53,15 @@ unsigned char * ofxPhoto::capture () {
         printf("Can't capture!\n");
 	}
 }
+
+int ofxPhoto::getCaptureWidth(){
+    return captureWidth;
+}
+
+int ofxPhoto::getCaptureHeight(){
+    return captureHeight;
+}
+
 bool ofxPhoto::captureSucceeded(){
     return bCaptureSucceeded;
 }
@@ -111,14 +124,14 @@ bool ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {
 }
 
 void ofxPhoto::putBmpIntoPixels(FIBITMAP * bmp, ofPixels &pix){
-	int width			= FreeImage_GetWidth(bmp);
-	int height			= FreeImage_GetHeight(bmp);
+	captureWidth			= FreeImage_GetWidth(bmp);
+	captureHeight			= FreeImage_GetHeight(bmp);
 	int bpp				= FreeImage_GetBPP(bmp);
 	int bytesPerPixel	= bpp / 8;
 	//------------------------------------------
 	// call the allocation routine (which checks if really need to allocate) here:
-	allocatePixels(pix, width, height, bpp);
-	FreeImage_ConvertToRawBits(pix.pixels, bmp, width*bytesPerPixel, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, true);  // get bits
+	allocatePixels(pix, captureWidth, captureHeight, bpp);
+	FreeImage_ConvertToRawBits(pix.pixels, bmp, captureWidth*bytesPerPixel, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, true);  // get bits
 }
 
 void ofxPhoto::allocatePixels(ofPixels &pix, int width, int height, int bpp){

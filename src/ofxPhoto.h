@@ -19,10 +19,11 @@ class ofxPhoto
         void exit();
         unsigned char * capture();
         bool captureSucceeded();
+        int getCaptureWidth();
+        int getCaptureHeight();
 
     protected:
     private:
-
         Camera	*camera;
         int	retval;
         GPContext *cameracontext;
@@ -42,6 +43,8 @@ class ofxPhoto
 
         bool bCameraInit;
         bool bCaptureSucceeded;
+
+        int captureWidth, captureHeight;
 
         bool capture_to_of(Camera *camera, GPContext *cameracontext);
 
