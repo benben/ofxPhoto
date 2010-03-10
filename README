@@ -1,5 +1,7 @@
 ofxPhoto (libgphoto2)
 
+Copyright (c) 2010, Benjamin Knofe
+
 This addon uses the gphoto2 library to take pictures remotely
 from your camera and use it directly in openFrameworks.
 
@@ -10,24 +12,37 @@ more Information.
 
 First check here if your camera is on this list: http://gphoto.org/doc/remote/
 After this install gphoto2 for example (on ubuntu) with
+
 sudo apt-get install gphoto2
+
 and test if your camera works with this command
+
 gphoto2 --capture-image-and-download
-If this works for you and the addon not, then please report it.
+
+If this works for you, the addon should work too.
 
 * Install Instructions
 
-Download the addon from here:
-Or Fork it from here:
+This only works on Linux 64bit for now. I've tested it with Ubuntu 9.10 64bit
+and a Canon IXUS II and a Canon G7.
+
+Download the addon from here: http://github.com/benben/ofxPhoto/downloads
+Or fork it from here: http://github.com/benben/ofxPhoto
 Copy the addon in the addons folder and the example in your apps folder.
 
-* See if it works
+* Basic Usage
 
-Plug in your camera and turn it on. A splash screen should appear where you have to unmount the camera from the system.
-Launch the photoExample and press Spacebar. After a few seconds a picture should appear on the screen.
+Plug in your camera and turn it on.
+A splash screen should appear where you have to unmount the camera from the system.
+Launch the photoExample, press Spacebar and watch the Console.
+After a few seconds a picture should appear on the screen.
+If the addon doesn't work, but the gphoto2 capture command above, please report it.
 
 * Other
 
 Please test it, if you can!
-Any Comments, Criticism, Suggestions is very welcome!
-If you have any question, feel free to ask!
+Any Comments, Criticism, Suggestions are very welcome here: 
+
+http://www.openframeworks.cc/forum/viewtopic.php?f=10&t=3474
+
+If you have any question, feel free to ask! 
