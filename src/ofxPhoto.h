@@ -8,8 +8,9 @@
 #include "gphoto2.h"
 #include "FreeImage.h"
 #include "ofMain.h"
+#include "ofxThread.h"
 
-class ofxPhoto
+class ofxPhoto : public ofxThread
 {
     public:
         ofxPhoto();
@@ -21,6 +22,11 @@ class ofxPhoto
         bool captureSucceeded();
         int getCaptureWidth();
         int getCaptureHeight();
+        void threadedFunction();
+
+        void startCapture();
+
+        bool isBusy();
 
     protected:
     private:
@@ -43,6 +49,7 @@ class ofxPhoto
 
         bool bCameraInit;
         bool bCaptureSucceeded;
+        bool bCamIsBusy;
 
         int captureWidth, captureHeight;
 

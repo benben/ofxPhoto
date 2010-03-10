@@ -11,7 +11,10 @@ ofxPhoto::~ofxPhoto()
 }
 
 void ofxPhoto::init () {
+
     bCameraInit = false;
+    bCaptureSucceeded = false;
+    bCamIsBusy = false;
 
     captureWidth = 0;
     captureHeight = 0;
@@ -37,21 +40,35 @@ void ofxPhoto::init () {
 	}
 }
 
-void ofxPhoto::exit () {
+void ofxPhoto::exit() {
     printf("Camera closing...\n");
     gp_camera_exit(camera, cameracontext);
     printf("Finished!\n");
 }
 
-unsigned char * ofxPhoto::capture () {
-    bCaptureSucceeded = false;
-	if(capture_to_of(camera, cameracontext)){
-	    bCaptureSucceeded = true;
+void ofxPhoto::threadedFunction(){
+    while( isThreadRunning() != 0 ){
+        if( lock() ){
+            capture_to_of(camera, cameracontext);
+            bCaptureSucceeded = true;
+            unlock();
+            stopThread();
+            //printf("Thread stopped!\n");
+        }
+    }
+}
+
+void ofxPhoto::startCapture(){
+    bCamIsBusy = true;
+    startThread(true, false);
+    //printf("Thread started!\n");
+}
+
+unsigned char * ofxPhoto::capture() {
+        //reset the bools
+        bCaptureSucceeded = false;
+        bCamIsBusy = false;
         return pix.pixels;
-	}
-	else {
-        printf("Can't capture!\n");
-	}
 }
 
 int ofxPhoto::getCaptureWidth(){
@@ -60,6 +77,10 @@ int ofxPhoto::getCaptureWidth(){
 
 int ofxPhoto::getCaptureHeight(){
     return captureHeight;
+}
+
+bool ofxPhoto::isBusy(){
+    return bCamIsBusy;
 }
 
 bool ofxPhoto::captureSucceeded(){
