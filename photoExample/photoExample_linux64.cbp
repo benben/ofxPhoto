@@ -5,7 +5,7 @@
 		<Option title="photoExample" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="addons/;src/;addons/ofxThread/;addons/ofxThread/src/;" />
+		<Option virtualFolders="addons/;src/;addons/ofxThread/;addons/ofxThread/src/;addons/ofxPhoto/;addons/ofxPhoto/src/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/photoExample_debug" prefix_auto="1" extension_auto="1" />
@@ -120,18 +120,6 @@
 			<Add after="#" />
 			<Mode after="always" />
 		</ExtraCommands>
-		<Unit filename="../../../addons/ofxPhoto/src/ofxPhoto.cpp">
-			<Option virtualFolder="src/" />
-		</Unit>
-		<Unit filename="../../../addons/ofxPhoto/src/ofxPhoto.h">
-			<Option virtualFolder="src/" />
-		</Unit>
-		<Unit filename="../../../addons/ofxThread/src/ofxThread.cpp">
-			<Option virtualFolder="addons/ofxThread/src/" />
-		</Unit>
-		<Unit filename="../../../addons/ofxThread/src/ofxThread.h">
-			<Option virtualFolder="addons/ofxThread/src/" />
-		</Unit>
 		<Unit filename="src/main.cpp">
 			<Option virtualFolder="src/" />
 		</Unit>
@@ -140,6 +128,18 @@
 		</Unit>
 		<Unit filename="src/testApp.h">
 			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="../src/ofxPhoto.cpp">
+			<Option virtualFolder="addons/ofxPhoto/src/" />
+		</Unit>
+		<Unit filename="../src/ofxPhoto.h">
+			<Option virtualFolder="addons/ofxPhoto/src/" />
+		</Unit>
+		<Unit filename="../../../addons/ofxThread/src/ofxThread.cpp">
+			<Option virtualFolder="addons/ofxThread/src/" />
+		</Unit>
+		<Unit filename="../../../addons/ofxThread/src/ofxThread.h">
+			<Option virtualFolder="addons/ofxThread/src/" />
 		</Unit>
 		<Extensions>
 			<lib_finder>
