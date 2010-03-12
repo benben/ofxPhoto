@@ -89,8 +89,8 @@
 			<Add library="RtAudio" />
 			<Add library="GLee" />
 			<Add library="oFappsink" />
-			<Add library="../../../addons/ofxPhoto/src/libgphoto2/lib/libgphoto2.so" />
-			<Add library="../../../addons/ofxPhoto/src/libgphoto2/lib/libgphoto2_port.so" />
+			<Add library="../../../addons/ofxPhoto/src/libgphoto2/lib64/libgphoto2.so" />
+			<Add library="../../../addons/ofxPhoto/src/libgphoto2/lib64/libgphoto2_port.so" />
 			<Add directory="../../../libs/freetype/lib/linux64" />
 			<Add directory="../../../libs/FreeImage/lib/linux64" />
 			<Add directory="../../../libs/rtAudio/lib/linux64" />
