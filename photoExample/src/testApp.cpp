@@ -10,7 +10,7 @@ void testApp::setup(){
 void testApp::update(){
 
                 if(photo.captureSucceeded()){
-                    printf("Try to loading data...\n");
+                    printf("Trying to load data...\n");
                     pic = photo.capture();
                     test.setFromPixels(pic,photo.getCaptureWidth(),photo.getCaptureHeight(),OF_IMAGE_COLOR,0);
                     printf("Loading finished!\n");
