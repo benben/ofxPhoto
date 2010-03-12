@@ -21,7 +21,8 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     test.draw(0,0);
-    ofDrawBitmapString(ofToString(ofGetFrameRate()),20,20);
+    ofDrawBitmapString(ofToString(ofGetFrameRate()) + " fps",20,20);
+    ofDrawBitmapString("Press space to take a photo...",20,35);
 }
 
 //--------------------------------------------------------------
