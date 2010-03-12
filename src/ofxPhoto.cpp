@@ -50,7 +50,6 @@ void ofxPhoto::threadedFunction(){
     while( isThreadRunning() != 0 ){
         if( lock() ){
             capture_to_of(camera, cameracontext);
-            bCaptureSucceeded = true;
             unlock();
             stopThread();
             //printf("Thread stopped!\n");
@@ -65,9 +64,8 @@ void ofxPhoto::startCapture(){
 }
 
 unsigned char * ofxPhoto::capture() {
-        //reset the bools
+        //reset the bool
         bCaptureSucceeded = false;
-        bCamIsBusy = false;
         return pix.pixels;
 }
 
@@ -89,18 +87,12 @@ bool ofxPhoto::captureSucceeded(){
 
 bool ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {
 
-    bool bCaptured = false;
-
     if(bCameraInit) {
         printf("Capturing (this may take some time) ...\n");
 
         //force camera to take a picture
         retval = gp_camera_capture(camera, GP_CAPTURE_IMAGE, &camera_file_path, cameracontext);
-        if(retval != GP_OK) {
-            printf("Retval: %d %s\n", retval, gp_result_as_string(retval));
-            return bCaptured;
-        }
-        else {
+        if(retval == GP_OK) {
             //printf("Pathname on the camera: %s/%s\n", camera_file_path.folder, camera_file_path.name);
 
             //create new camerafile
@@ -108,11 +100,7 @@ bool ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {
 
             //download picture from camera to camerafile
             retval = gp_camera_file_get(camera, camera_file_path.folder, camera_file_path.name,GP_FILE_TYPE_NORMAL, camerafile, cameracontext);
-            if(retval != GP_OK) {
-                printf("Retval: %d %s\n", retval, gp_result_as_string(retval));
-                return bCaptured;
-            }
-            else {
+            if(retval == GP_OK) {
                 //get data and size of the picture
                 gp_file_get_data_and_size(camerafile, &ptr, &size);
 
@@ -124,23 +112,46 @@ bool ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {
                 putBmpIntoPixels(bmp, pix);
 
                 printf("Deleting picture on camera...\n");
-                retval = gp_camera_file_delete(camera, camera_file_path.folder, camera_file_path.name,
-                        cameracontext);
+                retval = gp_camera_file_delete(camera, camera_file_path.folder, camera_file_path.name,cameracontext);
                 if(retval != GP_OK) {
+                    printf("Cannot delete picture on camera.\n");
                     printf("Retval: %d %s\n", retval, gp_result_as_string(retval));
                 }
 
                 gp_file_free(camerafile);
                 printf("Capturing finished!\n");
 
-                bCaptured = true;
-                return bCaptured;
+                //Camera is not busy anymore
+                bCamIsBusy = false;
+
+                bCaptureSucceeded = true;
+                return bCaptureSucceeded;
             }
+            else {
+                printf("Retval: %d %s\n", retval, gp_result_as_string(retval));
+
+                //Camera is not busy anymore
+                bCamIsBusy = false;
+
+                return bCaptureSucceeded;
+            }
+        }
+        else {
+            printf("Retval: %d %s\n", retval, gp_result_as_string(retval));
+
+            //Camera is not busy anymore
+            bCamIsBusy = false;
+
+            return bCaptureSucceeded;
         }
     }
     else {
         printf("Camera is not initiated!\n");
-        return bCaptured;
+
+        //Camera is not busy anymore
+        bCamIsBusy = false;
+
+        return bCaptureSucceeded;
     }
 }
 
