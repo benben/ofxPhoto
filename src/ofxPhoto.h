@@ -18,16 +18,12 @@
 #ifndef OFXPHOTO_H
 #define OFXPHOTO_H
 
-//#include <stdio.h>
-//#include <string.h>
-//#include <fcntl.h>
-
 #include "gphoto2.h"
 #include "FreeImage.h"
 #include "ofMain.h"
-#include "ofxThread.h"
+#include "ofThread.h"
 
-class ofxPhoto : public ofxThread
+class ofxPhoto : public ofThread
 {
     public:
         ofxPhoto();
