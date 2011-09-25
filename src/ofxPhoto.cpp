@@ -1,12 +1,10 @@
 #include "ofxPhoto.h"
 
-ofxPhoto::ofxPhoto()
-{
+ofxPhoto::ofxPhoto() {
     //ctor
 }
 
-ofxPhoto::~ofxPhoto()
-{
+ofxPhoto::~ofxPhoto() {
     //dtor
 }
 
@@ -22,7 +20,7 @@ void ofxPhoto::init () {
     printf("Camera init.  Takes about 10 seconds.\n");
 	cameracontext = gp_context_new();
 
-	gp_log_add_func(GP_LOG_ERROR, NULL, NULL);
+	//gp_log_add_func(GP_LOG_ERROR, NULL, NULL);
 	gp_camera_new(&camera);
 	/* When I set GP_LOG_DEBUG instead of GP_LOG_ERROR above, I noticed that the
 	 * init function seems to traverse the entire filesystem on the camera.  This
@@ -66,7 +64,7 @@ void ofxPhoto::startCapture(){
 unsigned char * ofxPhoto::capture() {
         //reset the bool
         bCaptureSucceeded = false;
-        return pix.pixels;
+        return pix.getPixels();
 }
 
 int ofxPhoto::getCaptureWidth(){
@@ -85,7 +83,7 @@ bool ofxPhoto::captureSucceeded(){
     return bCaptureSucceeded;
 }
 
-bool ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {
+bool ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {    
 
     if(bCameraInit) {
         printf("Capturing (this may take some time) ...\n");
@@ -162,50 +160,53 @@ void ofxPhoto::putBmpIntoPixels(FIBITMAP * bmp, ofPixels &pix){
 	int bytesPerPixel	= bpp / 8;
 	//------------------------------------------
 	// call the allocation routine (which checks if really need to allocate) here:
-	allocatePixels(pix, captureWidth, captureHeight, bpp);
-	FreeImage_ConvertToRawBits(pix.pixels, bmp, captureWidth*bytesPerPixel, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, true);  // get bits
+	//allocatePixels(pix, captureWidth, captureHeight, bpp);
+    pix.allocate(captureWidth, captureHeight,3);
+	FreeImage_ConvertToRawBits(pix.getPixels(), bmp, captureWidth*bytesPerPixel, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, true);  // get bits
 }
 
 void ofxPhoto::allocatePixels(ofPixels &pix, int width, int height, int bpp){
-
-	bool bNeedToAllocate = false;
-	if (pix.bAllocated == true){
-		if ( (pix.width == width) && (pix.height == height) && (pix.bitsPerPixel == bpp)){
-			//ofLog(OF_LOG_NOTICE,"we are good, no reallocation needed");
-			bNeedToAllocate = false;
-		 } else {
-			delete[] pix.pixels;
-			bNeedToAllocate = true;
-		 }
-	} else {
-		bNeedToAllocate = true;
-	}
-
-	int byteCount = bpp / 8;
-
-	if (bNeedToAllocate == true){
-		pix.width			= width;
-		pix.height			= height;
-		pix.bitsPerPixel	= bpp;
-		pix.bytesPerPixel	= bpp / 8;
-		switch (pix.bitsPerPixel){
-			case 8:
-				pix.glDataType		= GL_LUMINANCE;
-				pix.ofImageType		= OF_IMAGE_GRAYSCALE;
-				break;
-			case 24:
-				pix.glDataType		= GL_RGB;
-				pix.ofImageType		= OF_IMAGE_COLOR;
-				break;
-			case 32:
-				pix.glDataType		= GL_RGBA;
-				pix.ofImageType		= OF_IMAGE_COLOR_ALPHA;
-				break;
-		}
-
-		pix.pixels			= new unsigned char[pix.width*pix.height*byteCount];
-		pix.bAllocated		= true;
-	}
+//
+//	bool bNeedToAllocate = false;
+//	if (pix.isAllocated() == true){
+//		if ( (pix.getWidth() == width) && (pix.getHeight() == height) && (pix.getBitsPerPixel() == bpp)){
+//			//ofLog(OF_LOG_NOTICE,"we are good, no reallocation needed");
+//			bNeedToAllocate = false;
+//		 } else {
+//			delete[] pix.getPixels();
+//			bNeedToAllocate = true;
+//		 }
+//	} else {
+//		bNeedToAllocate = true;
+//	}
+//
+//	int byteCount = bpp / 8;
+//
+//	if (bNeedToAllocate == true){
+//        pix.allocate(<#int w#>, <#int h#>, <#int channels#>)
+//		pix.width			= width;
+//		pix.height			= height;
+//		pix.bitsPerPixel	= bpp;
+//		pix.bytesPerPixel	= bpp / 8;
+//		switch (pix.getBitsPerPixel()){
+//			case 8:
+//				pix.glDataType		= GL_LUMINANCE;
+//				pix.ofImageType		= OF_IMAGE_GRAYSCALE;
+//				break;
+//			case 24:
+//				pix.glDataType		= GL_RGB;
+//				pix.ofImageType		= OF_IMAGE_COLOR;
+//				break;
+//			case 32:
+//				pix.glDataType		= GL_RGBA;
+//				pix.ofImageType		= OF_IMAGE_COLOR_ALPHA;
+//				break;
+//		}
+//
+//        pix.alloc
+//		pix.pixels			= new unsigned char[pix.width*pix.height*byteCount];
+//		pix.bAllocated		= true;
+//	}
 }
 
 void ofxPhoto::capture_to_file(Camera *camera, GPContext *cameracontext, char *filename) {
