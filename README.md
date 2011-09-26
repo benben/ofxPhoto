@@ -34,6 +34,7 @@ The included libgphoto2 library doesn't work on mac. Don't add it to your projec
 You'll have to compile the library yourself and link from your project.
 
 Here's how I've made it work using macports:
+
 - to compile libgphoto2 in 32 bit, you'll have to tell macports to compile for i386
 - open the file macports.conf (it's in /opt/local/etc/macports/ in my system)
 - uncomment the line that says
@@ -47,6 +48,7 @@ Here's how I've made it work using macports:
 - if everything went well, edit the file Project.xconfig in your Xcode project to be like this:
 
     OTHER_LDFLAGS = $(OF_CORE_LIBS) /opt/local/lib/libgphoto2.dylib
+    
     HEADER_SEARCH_PATHS = $(OF_CORE_HEADERS) /opt/local/include/gphoto2
 	
 - and you should be fine
@@ -77,7 +79,7 @@ libgphoto2 is released under a LGPL. See for more here: http://www.gphoto.org/pr
 
 (The MIT License)
 
-Copyright © 2009-2011 Benjamin Knofe
+Copyright © 2011 Benjamin Knofe
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
