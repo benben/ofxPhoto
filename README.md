@@ -45,7 +45,7 @@ Here's how I've made it work using macports:
 	sudo port install libgphoto2
 	
 - if everything went well, edit the file Project.xconfig in your Xcode project to be like this:
-	
+
     OTHER_LDFLAGS = $(OF_CORE_LIBS) /opt/local/lib/libgphoto2.dylib
     HEADER_SEARCH_PATHS = $(OF_CORE_HEADERS) /opt/local/include/gphoto2
 	
