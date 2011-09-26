@@ -75,7 +75,7 @@ If you have any question, feel free to ask!
 License
 -------
 
-libgphoto2 is released under a LGPL. See for more here: http://www.gphoto.org/proj/libgphoto2/
+libgphoto2 is released under the LGPL. See for more here: http://www.gphoto.org/proj/libgphoto2/
 
 (The MIT License)
 
