@@ -83,7 +83,7 @@ bool ofxPhoto::captureSucceeded(){
     return bCaptureSucceeded;
 }
 
-bool ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {    
+bool ofxPhoto::capture_to_of(Camera *camera, GPContext *cameracontext) {
 
     if(bCameraInit) {
         printf("Capturing (this may take some time) ...\n");

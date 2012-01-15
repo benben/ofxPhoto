@@ -17,14 +17,12 @@ USER_CFLAGS =
 # for example libraries like:
 # USER_LD_FLAGS = libs/libawesomelib.a
 
-USER_LDFLAGS = $(OF_ROOT)/addons/ofxPhoto/libs/libgphoto2/lib/linux/libgphoto2.a $(OF_ROOT)/addons/ofxPhoto/libs/libgphoto2/lib/linux/libgphoto2_port.a
-
+USER_LDFLAGS =
 
 # use this to add system libraries for example:
 # USER_LIBS = -lpango
 
-USER_LIBS = -lexif
-
+USER_LIBS = -L$(OF_ROOT)/addons/ofxPhoto/libs/libgphoto2/lib/linux/ -lgphoto2 -lgphoto2_port -lm -lexif -lusb
 
 # change this to add different compiler optimizations to your project
 
