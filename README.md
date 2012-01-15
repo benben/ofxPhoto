@@ -73,6 +73,10 @@ Any Comments, Criticism, Suggestions are very welcome here:
 
 http://www.openframeworks.cc/forum/viewtopic.php?f=10&t=3474
 
+or here:
+
+https://github.com/benben/ofxPhoto/issues
+
 If you have any question, feel free to ask!
 
 License
@@ -82,7 +86,7 @@ libgphoto2 is released under the LGPL. See for more here: http://www.gphoto.org/
 
 (The MIT License)
 
-Copyright © 2011 Benjamin Knofe
+Copyright © 2011 Benjamin Knofe, https://github.com/benben/ofxPhoto
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
