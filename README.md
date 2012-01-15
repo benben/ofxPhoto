@@ -40,17 +40,17 @@ Here's how I've made it work using macports:
 - uncomment the line that says
 
     build_arch			i386
-		
+
 - then install libgphoto2
-	
+
 	sudo port install libgphoto2
-	
+
 - if everything went well, edit the file Project.xconfig in your Xcode project to be like this:
 
     OTHER_LDFLAGS = $(OF_CORE_LIBS) /opt/local/lib/libgphoto2.dylib
-    
+
     HEADER_SEARCH_PATHS = $(OF_CORE_HEADERS) /opt/local/include/gphoto2
-	
+
 - and you should be fine
 
 Basic Usage
@@ -58,6 +58,9 @@ Basic Usage
 
 Plug in your camera and turn it on.
 A splash screen should appear where you have to unmount the camera from the system.
+If you get an "*** Error (-53: 'Could not claim the USB device') ***" on Mac, then run
+'killall PTPCamera' to quit the daemon.
+
 Launch the photoExample, press Spacebar and watch the Console.
 After a few seconds a picture should appear on the screen.
 If the addon doesn't work, but the gphoto2 capture command above, please report it.
@@ -66,11 +69,11 @@ Other
 -----
 
 Please test it, if you can!
-Any Comments, Criticism, Suggestions are very welcome here: 
+Any Comments, Criticism, Suggestions are very welcome here:
 
 http://www.openframeworks.cc/forum/viewtopic.php?f=10&t=3474
 
-If you have any question, feel free to ask! 
+If you have any question, feel free to ask!
 
 License
 -------
