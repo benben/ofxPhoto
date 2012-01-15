@@ -4,6 +4,7 @@
 void testApp::setup(){
     photo.init();
     bCamIsBusy = false;
+    test.allocate(1024,1024,OF_IMAGE_COLOR);
 }
 
 //--------------------------------------------------------------
